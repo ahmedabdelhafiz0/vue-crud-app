@@ -1,6 +1,10 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
+import Customers from "../views/Customers.vue";
+import Dishes from "../views/Dishes.vue";
+import AddDish from "../components/dishes/AddDish.vue";
+import EditDish from "../components/dishes/EditDish.vue";
 
 Vue.use(VueRouter);
 
@@ -11,13 +15,33 @@ const routes = [
     component: Home
   },
   {
-    path: "/about",
-    name: "About",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue")
+    path: "/Customers",
+    name: "Customers",
+    component: Customers
+  },
+  {
+    path: "/Dishes",
+    name: "Dishes",
+    component: Dishes
+  },
+  {
+    path: "/Dishes/Add",
+    name: "AddDish",
+    component: AddDish,
+    // to make sure that we load old dishes list before update
+    beforeEnter: (to, from, next) => {
+      if (from.name == "Dishes") {
+        next();
+      } else {
+        next({ name: "Dishes" });
+      }
+    }
+  },
+  {
+    path: "/Dishes/Edit",
+    name: "EditDish",
+    component: EditDish,
+    props: true
   }
 ];
 
